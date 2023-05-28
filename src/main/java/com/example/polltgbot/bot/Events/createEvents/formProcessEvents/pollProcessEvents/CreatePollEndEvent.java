@@ -2,12 +2,13 @@ package com.example.polltgbot.bot.Events.createEvents.formProcessEvents.pollProc
 
 import com.example.polltgbot.bot.Events.Event;
 import com.example.polltgbot.bot.Events.EventChain;
-import com.example.polltgbot.bot.Events.createEvents.formProcessEvents.CreateProcessFormEvent;
+import com.example.polltgbot.bot.Events.createEvents.formProcessEvents.CreateHandleFormEvent;
 import com.example.polltgbot.bot.Events.eventTypes.MessageEventType;
 import com.example.polltgbot.data.PollDTO;
 import com.example.polltgbot.data.entities.Form;
 import com.example.polltgbot.data.entities.User;
 import com.example.polltgbot.data.enums.MessageTypeEnum;
+import com.example.polltgbot.services.TranslationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,8 @@ import java.util.Map;
 public class CreatePollEndEvent extends Event<MessageEventType, MessageEventType> {
     private final List<BotApiMethod<?>> emptyList;
     private final ObjectMapper objectMapper;
-    private final CreateProcessFormEvent createFormProcessEvent;
+    private final CreateHandleFormEvent createHandleFormEvent;
+    private final TranslationService translationService;
 
     @Override
     public Class<?> getInputEventType() {
@@ -51,8 +53,8 @@ public class CreatePollEndEvent extends Event<MessageEventType, MessageEventType
         if (message.getText().equals("/poll_cancel")) {
             eventChainData.remove("poll");
             setNewEvent = true;
-            chain.setCurrentEvent(createFormProcessEvent);
-            return List.of(new SendMessage(chatId, "Опитування відмінено!"));
+            chain.setCurrentEvent(createHandleFormEvent);
+            return List.of(new SendMessage(chatId, translationService.getTranslation(user.getLanguage(), "poll-cancel-msg").getValue()));
 
         }
         else if (message.getText().equals("/poll_end")) {
@@ -66,9 +68,9 @@ public class CreatePollEndEvent extends Event<MessageEventType, MessageEventType
                 ((List<com.example.polltgbot.data.entities.Message>) eventChainData.get("messages"))
                         .add(messageEntity);
                 setNewEvent = true;
-                chain.setCurrentEvent(createFormProcessEvent);
+                chain.setCurrentEvent(createHandleFormEvent);
                 //Todo
-                return List.of(new SendMessage(chatId, "Опитування створено!"));
+                return List.of(new SendMessage(chatId, translationService.getTranslation(user.getLanguage(), "poll-created-msg").getValue()));
             } catch (JsonProcessingException e) {
                 //TODO
                 return List.of(new SendMessage(chatId, "ПОМИЛКА"));

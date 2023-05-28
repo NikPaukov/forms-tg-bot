@@ -14,7 +14,4 @@ public class AnswerService {
     public void createAnswer(Answer answer){
         answerRepository.save(answer);
     }
-    public boolean hasUserPassedForm(Form form, User user){
-        return answerRepository.existsAnswerByPollAndUser(form, user);
-    }
-}
+   }

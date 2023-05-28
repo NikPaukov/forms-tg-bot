@@ -74,15 +74,15 @@ public class InlineKeyboards {
     }
     public InlineKeyboardMarkup getStartKeyboard(String lg){
         List<List<InlineKeyboardButton>>buttons  = List.of(new ArrayList<>(), new ArrayList<>());
-        buttons.get(0).add(getButton(translationService.getTranslation(lg, "main-keyboard-create-poll").getValue(),
+        buttons.get(0).add(getButton(translationService.getTranslation(lg, "main-keyboard-create-form").getValue(),
                 "create"));
-        buttons.get(0).add(getButton(translationService.getTranslation(lg, "main-keyboard-get-poll").getValue(),
+        buttons.get(0).add(getButton(translationService.getTranslation(lg, "main-keyboard-get-form").getValue(),
                 "get"));
-        buttons.get(1).add(getButton(translationService.getTranslation(lg, "main-keyboard-change-language").getValue(),
+        buttons.get(1).add(getButton("Change language",
                 "changeLanguage"));
         //TODO
-buttons.get(1).add(getButton("Мої опитування",
-                "view"));
+buttons.get(1).add(getButton(translationService.getTranslation(lg, "main-keyboard-view-forms").getValue(),
+        "view"));
 
 
         final InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

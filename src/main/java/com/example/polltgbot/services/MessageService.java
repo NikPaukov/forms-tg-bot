@@ -20,7 +20,7 @@ public void createMessages(List<Message> messageList){
     messageRepository.saveAll(messageList);
 }
 public List<Message> findAllByPoll(Form poll){
-    return messageRepository.findAllByPollOrderBySendOrder(poll);
+    return messageRepository.findAllByFormOrderBySendOrder(poll);
 }
 public Message findById(Long id){
     return messageRepository.findById(id).orElseThrow(IllegalArgumentException::new);

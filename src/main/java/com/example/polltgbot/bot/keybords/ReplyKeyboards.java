@@ -19,7 +19,8 @@ public class ReplyKeyboards {
                                 new KeyboardButton("/cancel"))),
                 new KeyboardRow(
                         List.of(new KeyboardButton("/poll"),
-                                new KeyboardButton("/endpoll")))));
+                                new KeyboardButton("/poll_end"),
+                                new KeyboardButton("/poll_cancel")))));
         replyKeyboardMarkup.setResizeKeyboard(true);
         return replyKeyboardMarkup;
     }

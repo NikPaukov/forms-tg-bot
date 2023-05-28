@@ -19,15 +19,15 @@ import java.util.Map;
 @Component
 public class CreateProcessTextMessageEvent extends Event<MessageEventType, MessageEventType> {
     @Lazy
-    public CreateProcessTextMessageEvent(List<BotApiMethod<?>> emptyList, CreateProcessFormEvent createFormProcessEvent) {
+    public CreateProcessTextMessageEvent(List<BotApiMethod<?>> emptyList, CreateHandleFormEvent createHandleFormEvent) {
         this.emptyList = emptyList;
-        this.createFormProcessEvent = createFormProcessEvent;
+        this.createHandleFormEvent = createHandleFormEvent;
     }
 
     private final List<BotApiMethod<?>> emptyList;
 
     @Lazy
-    private final CreateProcessFormEvent createFormProcessEvent;
+    private final CreateHandleFormEvent createHandleFormEvent;
     @Override
     public Class<?> getInputEventType() {
         return MessageEventType.class;
@@ -54,7 +54,7 @@ public class CreateProcessTextMessageEvent extends Event<MessageEventType, Messa
         );
         ((List<com.example.polltgbot.data.entities.Message>) eventChainData.get("messages"))
                 .add(messageDTO);
-        chain.setCurrentEvent(createFormProcessEvent);
+        chain.setCurrentEvent(createHandleFormEvent);
         setNewEvent = true;
         eventChainData.put("sendOrder", sendOrder+1);
         return emptyList;

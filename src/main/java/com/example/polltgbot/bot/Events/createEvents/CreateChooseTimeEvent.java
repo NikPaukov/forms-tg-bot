@@ -12,7 +12,6 @@ import com.example.polltgbot.services.TranslationService;
 import com.example.polltgbot.utils.RandomStringGenerator;
 import lombok.AllArgsConstructor;
 import org.apache.shiro.session.Session;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,10 +19,8 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageRe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import javax.security.auth.callback.Callback;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +28,13 @@ import java.util.Map;
 
 @Component
 @AllArgsConstructor
-public class CreateTimeChooseEvent extends Event<CallbackEventType, MessageEventType> {
+public class CreateChooseTimeEvent extends Event<CallbackEventType, MessageEventType> {
     private final TranslationService translationService;
     private final RandomStringGenerator generator;
     private final ReplyKeyboards replyKeyboards;
     private final List<BotApiMethod<?>> emptyList;
 
-    private final CreateNameRecieveEvent createNameRecieveEvent;
+    private final CreateRecieveNameEvent createRecieveNameEvent;
     @Override
     public Class<?> getInputEventType() {
         return CallbackEventType.class;
@@ -62,11 +59,10 @@ public class CreateTimeChooseEvent extends Event<CallbackEventType, MessageEvent
             eventChainData.put("form", form);
             eventChainData.put("messages", new ArrayList<Message>());
 
-            String text = String.format(translationService.getTranslation(user.getLanguage(), "time-chosen").getValue(),
-                    form.getExpiresAt().toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            SendMessage sendMessageWithReplyKeyboard = new SendMessage(chatId, text);
+              SendMessage sendMessageWithReplyKeyboard = new SendMessage(chatId,
+                      translationService.getTranslation(user.getLanguage(), "time-chosen").getValue());
             sendMessageWithReplyKeyboard.setReplyMarkup(replyKeyboards.createFormKeyboard());
-            chain.setCurrentEvent(createNameRecieveEvent);
+            chain.setCurrentEvent(createRecieveNameEvent);
             setNewEvent = true;
             return List.of(new EditMessageReplyMarkup(String.valueOf(callbackQuery.getMessage().getChatId()), callbackQuery.getMessage().getMessageId(), callbackQuery.getInlineMessageId(), null),
                     sendMessageWithReplyKeyboard);

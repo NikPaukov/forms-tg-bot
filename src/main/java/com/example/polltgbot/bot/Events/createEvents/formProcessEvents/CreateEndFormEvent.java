@@ -3,10 +3,12 @@ package com.example.polltgbot.bot.Events.createEvents.formProcessEvents;
 import com.example.polltgbot.bot.Events.Event;
 import com.example.polltgbot.bot.Events.EventChain;
 import com.example.polltgbot.bot.Events.eventTypes.MessageEventType;
+import com.example.polltgbot.bot.Events.startEvents.StartEvent;
 import com.example.polltgbot.data.entities.Form;
 import com.example.polltgbot.data.entities.User;
 import com.example.polltgbot.services.MessageService;
 import com.example.polltgbot.services.PollService;
+import com.example.polltgbot.services.TranslationService;
 import lombok.AllArgsConstructor;
 import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Component;
@@ -23,7 +25,8 @@ public class CreateEndFormEvent extends Event<MessageEventType, MessageEventType
     private final List<BotApiMethod<?>> emptyList;
     private final PollService formService;
     private final MessageService messageService;
-    private final CreateProcessFormEvent processEvent;
+        private final StartEvent startEvent;
+    private final TranslationService translationService;
     @Override
     public Class<?> getInputEventType() {
         return MessageEventType.class;
@@ -49,9 +52,11 @@ public class CreateEndFormEvent extends Event<MessageEventType, MessageEventType
         messageService.createMessages(messages);
         //TODO
         setNewEvent=true;
-        chain.setCurrentEvent(processEvent);
-        SendMessage sendMessage = new SendMessage(chatId, "Чудово! опитування "+ form.getName()+ " створено, його код - ```" +
-                form.getCode() + "```. Використовуй її щоб надавати доступ іншим");
+        chain.setCurrentEvent(startEvent);
+        SendMessage sendMessage = new SendMessage(chatId, String.format(translationService.getTranslation(user.getLanguage(),
+                "form-created-msg").getValue(),
+                form.getName(),
+                form.getCode()));
         sendMessage.enableMarkdown(true);
         return List.of(sendMessage);
     }

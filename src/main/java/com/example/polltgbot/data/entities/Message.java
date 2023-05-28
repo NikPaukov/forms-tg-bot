@@ -14,28 +14,28 @@ import lombok.*;
 @EqualsAndHashCode
 public class Message {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Message(Form poll, Integer sendOrder, MessageTypeEnum messageType, String answer) {
+    public Message(Form form, Integer sendOrder, MessageTypeEnum messageType, String data) {
 
-        this.poll = poll;
+        this.form = form;
         this.sendOrder = sendOrder;
         this.messageType = messageType;
-        this.answer = answer;
+        this.data = data;
     }
 
-    @JoinColumn(name = "poll_id")
-@ManyToOne
-private Form poll;
+    @JoinColumn(name = "form_id")
+    @ManyToOne
+    private Form form;
 
-@Column(name = "send_order")
-private Integer sendOrder;
+    @Column(name = "send_order")
+    private Integer sendOrder;
 
-@Column(name = "type")
-private MessageTypeEnum messageType;
+    @Column(name = "message_type")
+    private MessageTypeEnum messageType;
 
-private String answer;
+    private String data;
 
 }

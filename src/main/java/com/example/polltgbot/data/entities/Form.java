@@ -24,6 +24,7 @@ public class Form {
     private String code;
 
     @ManyToOne
+    @JoinColumn(name="creator_id")
     private User creator;
 
     private Timestamp createdAt;

@@ -14,10 +14,10 @@ import java.sql.Timestamp;
 @ToString
 @EqualsAndHashCode
 public class User {
-    public User( Long userid, String language, Timestamp registeredAt, String name, String surname, String tag) {
+    public User( Long userid, String language, Timestamp registeredAt, String name, String surname, String username ) {
         this.name = name;
         this.surname = surname;
-        this.tag = tag;
+        this.username = username;
         this.userid = userid;
         this.language = language;
         this.registeredAt = registeredAt;
@@ -28,7 +28,7 @@ public class User {
     private Long id;
     private String name;
     private String surname;
-    private String tag;
+    private String username;
 
     private Long userid;
 

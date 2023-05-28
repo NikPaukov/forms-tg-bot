@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-List<Message> findAllByPollOrderBySendOrder(Form poll);
-List<Message> findAllByAnswerAndPoll(Form poll, String answer);
+List<Message> findAllByFormOrderBySendOrder(Form poll);
 }

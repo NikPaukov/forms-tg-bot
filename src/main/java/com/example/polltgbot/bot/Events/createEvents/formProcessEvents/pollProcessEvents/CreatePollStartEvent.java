@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Component
 @AllArgsConstructor
-public class CreateStartPollEvent extends Event<MessageEventType, MessageEventType> {
+public class CreatePollStartEvent extends Event<MessageEventType, MessageEventType> {
     private final List<BotApiMethod<?>> emptyList;
     private final TranslationService translationService;
     private final CreatePollQuestionEvent createFormQuestionProcessPollEvent;

@@ -9,6 +9,7 @@ import com.example.polltgbot.bot.Events.Event;
 import com.example.polltgbot.services.TranslationService;
 import lombok.AllArgsConstructor;
 import org.apache.shiro.session.Session;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -19,8 +20,9 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Lazy
 public class StartEvent extends Event<MessageEventType, CallbackEventType> {
-    private final TranslationService translationService;
+        private final TranslationService translationService;
     private final InlineKeyboards inlineKeyboards;
     private final StartSelectEvent startSelectEvent;
 
